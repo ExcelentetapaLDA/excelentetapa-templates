@@ -1,0 +1,713 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Recursos Humanos · Excelentetapa Hub</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --gold:#C9A84C; --gold-light:#E8C97A; --gold-dark:#A07830; --gold-pale:#F7F0E0;
+    --cream:#F0F2F8; --white:#FFFFFF; --dark:#1A1A1A; --mid:#5A5A5A; --light:#9A9A9A; --border:#E8DFC8;
+    --blue:#3D6DB5; --blue-pale:#EEF4FF; --blue-mid:#6B9FD4;
+    --green:#2E8A5F; --green-pale:#EDFAF4;
+    --red:#C0392B; --red-pale:#FEF0EE;
+    --orange:#E07820; --orange-pale:#FFF3E8;
+    --purple:#7B5EA7; --purple-pale:#F3EEFF;
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { font-family:'Plus Jakarta Sans',sans-serif; background:#F0F2F8; color:var(--dark); }
+
+  /* SIDEBAR */
+  .sidebar {
+    position:fixed; left:0; top:0; bottom:0; width:250px;
+    background:#0F1623; border-right:none;
+    display:flex; flex-direction:column; z-index:100; transition:transform 0.3s;
+  }
+  .logo-area { padding:18px; border-bottom:1px solid rgba(255,255,255,0.06); display:flex; align-items:center; gap:10px; }
+  .logo-circle { width:36px; height:36px; background:linear-gradient(135deg,#C9A84C,#E8C97A); border-radius:50%; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+  .logo-text .brand { font-family:'DM Sans',sans-serif; font-size:10px; font-weight:600; letter-spacing:0.15em; color:#C9A84C; text-transform:uppercase; display:block; }
+  .logo-text .name { font-family:'DM Sans',sans-serif; font-size:16px; font-weight:600; color:white; }
+
+  .nav { flex:1; padding:12px; overflow-y:auto; display:flex; flex-direction:column; gap:2px; }
+  .nav-label { font-size:10px; font-weight:600; letter-spacing:0.1em; text-transform:uppercase; color:rgba(255,255,255,0.3); padding:10px 8px 4px; display:block; }
+  .nav-item {
+    display:flex; align-items:center; gap:10px; padding:9px 12px;
+    border-radius:8px; cursor:pointer; transition:all 0.2s;
+    color:rgba(255,255,255,0.45); font-size:13px; border:none; background:none;
+    width:100%; text-align:left; position:relative;
+  }
+  .nav-item:hover { background:rgba(255,255,255,0.08); color:rgba(255,255,255,0.9); }
+  .nav-item.active { background:rgba(20,184,166,0.15); color:#5EEAD4; font-weight:600; }
+  .nav-item.active::before { content:''; position:absolute; left:-12px; top:50%; transform:translateY(-50%); width:3px; height:18px; background:#14B8A6; border-radius:0 3px 3px 0; }
+  .nav-item .badge-count { margin-left:auto; background:var(--orange); color:white; font-size:10px; padding:1px 6px; border-radius:10px; }
+
+  .back-btn { display:flex; align-items:center; gap:8px; padding:9px 12px; border-radius:8px; cursor:pointer; color:rgba(255,255,255,0.35); font-size:13px; border:none; background:none; width:100%; margin-bottom:4px; transition:all 0.2s; }
+  .back-btn:hover { color:rgba(255,255,255,0.8); background:rgba(255,255,255,0.06); }
+
+  .sidebar-footer { padding:12px; border-top:1px solid rgba(255,255,255,0.06); }
+  .company-badge { background:rgba(20,184,166,0.1); border-radius:8px; padding:10px 12px; border:1px solid rgba(20,184,166,0.2); }
+  .company-badge span { display:block; font-size:10px; color:rgba(255,255,255,0.3); margin-bottom:2px; }
+  .company-badge strong { font-size:12px; color:#5EEAD4; }
+
+  /* MAIN */
+  .main { margin-left:250px; min-height:100vh; display:flex; flex-direction:column; }
+  .topbar { background:#F8FAFB; border-bottom:1px solid #EBF0F5; padding:14px 28px; display:flex; align-items:center; justify-content:space-between; position:sticky; top:0; z-index:50; }
+  .topbar-left { display:flex; align-items:center; gap:14px; }
+  .page-title { font-family:'DM Sans',sans-serif; font-size:20px; font-weight:600; color:#0F1623; }
+  .page-sub { font-size:12px; color:var(--light); }
+  .topbar-actions { display:flex; align-items:center; gap:8px; }
+
+  .btn { padding:8px 16px; border-radius:8px; font-size:13px; font-weight:500; font-family:'Plus Jakarta Sans',sans-serif; cursor:pointer; border:none; transition:all 0.2s; }
+  .btn-blue { background:linear-gradient(135deg,#0D9488,#14B8A6); color:white; box-shadow:0 4px 12px rgba(20,184,166,0.3); }
+  .btn-blue:hover { background:linear-gradient(135deg,#0F766E,#0D9488); transform:translateY(-1px); }
+  .btn-green { background:var(--green); color:white; }
+  .btn-green:hover { background:#226B4A; }
+  .btn-outline { background:transparent; border:1px solid var(--border); color:var(--mid); }
+  .btn-outline:hover { border-color:var(--blue-mid); color:var(--blue); }
+  .btn-gold { background:var(--gold); color:white; }
+  .btn-gold:hover { background:var(--gold-dark); }
+
+  .content { padding:24px 28px; flex:1; }
+
+  /* SECTION */
+  .section { display:none; }
+  .section.active { display:block; }
+
+  /* STATS */
+  .stats-row { display:grid; grid-template-columns:repeat(4,1fr); gap:14px; margin-bottom:22px; }
+  .stat-card { background:var(--white); border:1px solid #E2E8F0; border-radius:16px; padding:18px 20px; transition:all 0.25s; cursor:pointer; box-shadow:0 1px 3px rgba(0,0,0,0.04); }
+  .stat-card:hover { transform:translateY(-3px); box-shadow:0 12px 28px rgba(0,0,0,0.08); }
+  .stat-icon { font-size:18px; margin-bottom:8px; }
+  .stat-label { font-size:11px; font-weight:600; letter-spacing:0.07em; text-transform:uppercase; color:var(--light); margin-bottom:5px; }
+  .stat-value { font-family:'DM Sans',sans-serif; font-size:28px; font-weight:700; color:var(--dark); line-height:1; margin-bottom:3px; }
+  .stat-sub { font-size:11px; color:var(--light); }
+
+  /* ALERTS BAR */
+  .alerts-bar { display:flex; gap:10px; margin-bottom:22px; flex-wrap:wrap; }
+  .alert-chip { display:flex; align-items:center; gap:7px; padding:8px 14px; border-radius:20px; font-size:12px; font-weight:500; cursor:pointer; transition:all 0.2s; }
+  .alert-chip.warning { background:var(--orange-pale); color:var(--orange); border:1px solid #F0C090; }
+  .alert-chip.danger { background:var(--red-pale); color:var(--red); border:1px solid #F0B0A0; }
+  .alert-chip.info { background:var(--blue-pale); color:var(--blue); border:1px solid #B0C8F0; }
+
+  /* SEARCH */
+  .search-bar { display:flex; gap:10px; margin-bottom:16px; }
+  .search-input { flex:1; padding:10px 14px; border:1px solid var(--border); border-radius:8px; font-family:'Plus Jakarta Sans',sans-serif; font-size:13px; color:var(--dark); background:var(--white); outline:none; transition:border 0.2s; }
+  .search-input:focus { border-color:var(--blue-mid); }
+  .filter-sel { padding:9px 12px; border:1px solid var(--border); border-radius:8px; background:var(--white); font-size:13px; color:var(--mid); cursor:pointer; font-family:'Plus Jakarta Sans',sans-serif; outline:none; }
+
+  /* TABLE */
+  .table-wrap { background:var(--white); border:1px solid var(--border); border-radius:12px; overflow:hidden; }
+  .table-head { display:grid; grid-template-columns:2.5fr 1.5fr 1fr 1fr 1fr 0.7fr; padding:11px 20px; background:#F0F2F8; border-bottom:1px solid var(--border); font-size:11px; font-weight:600; letter-spacing:0.07em; text-transform:uppercase; color:var(--light); }
+  .table-row { display:grid; grid-template-columns:2.5fr 1.5fr 1fr 1fr 1fr 0.7fr; padding:13px 20px; border-bottom:1px solid var(--border); align-items:center; transition:background 0.15s; cursor:pointer; }
+  .table-row:last-child { border-bottom:none; }
+  .table-row:hover { background:var(--blue-pale); }
+  .func-name { display:flex; align-items:center; gap:10px; }
+  .func-avatar { width:32px; height:32px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-family:'DM Sans',sans-serif; font-size:14px; font-weight:700; color:white; flex-shrink:0; }
+  .func-name-text { font-size:13px; font-weight:600; color:var(--dark); }
+  .func-cat-text { font-size:11px; color:var(--light); }
+  .cell { font-size:13px; color:var(--mid); }
+  .badge { display:inline-block; padding:3px 10px; border-radius:20px; font-size:11px; font-weight:500; }
+  .badge.ativo { background:var(--green-pale); color:var(--green); }
+  .badge.termo { background:var(--orange-pale); color:var(--orange); }
+  .badge.alerta { background:var(--red-pale); color:var(--red); }
+  .action-btns { display:flex; gap:5px; }
+  .icon-btn { width:28px; height:28px; border-radius:6px; border:1px solid var(--border); background:var(--white); cursor:pointer; display:flex; align-items:center; justify-content:center; font-size:13px; transition:all 0.2s; }
+  .icon-btn:hover { border-color:var(--blue-mid); background:var(--blue-pale); }
+
+  /* DOC CARDS */
+  .section-heading { font-family:'DM Sans',sans-serif; font-size:16px; font-weight:600; color:var(--dark); margin-bottom:12px; padding-bottom:8px; border-bottom:1px solid var(--border); display:flex; align-items:center; gap:10px; }
+  .doc-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:14px; margin-bottom:28px; }
+  .doc-card { background:var(--white); border:1px solid #E2E8F0; border-radius:16px; padding:16px; cursor:pointer; transition:all 0.2s; display:flex; flex-direction:column; gap:6px; }
+  .doc-card:hover { border-color:#5EEAD4; box-shadow:0 8px 24px rgba(20,184,166,0.12); transform:translateY(-3px); }
+  .doc-card-header { display:flex; align-items:center; gap:10px; }
+  .doc-card-icon { width:36px; height:36px; border-radius:8px; display:flex; align-items:center; justify-content:center; font-size:17px; flex-shrink:0; }
+  .doc-card-title { font-size:13px; font-weight:600; color:var(--dark); }
+  .doc-card-desc { font-size:11px; color:var(--light); line-height:1.4; }
+  .doc-tag { display:inline-block; padding:2px 8px; border-radius:10px; font-size:10px; font-weight:600; margin-top:4px; }
+
+  /* COMING SOON */
+  .coming-soon { background:var(--white); border:1px solid var(--border); border-radius:12px; padding:48px; text-align:center; }
+  .coming-soon .cs-icon { font-size:44px; margin-bottom:14px; }
+  .coming-soon h3 { font-family:'DM Sans',sans-serif; font-size:22px; font-weight:700; color:var(--dark); margin-bottom:8px; }
+  .coming-soon p { font-size:13px; color:var(--light); margin-bottom:20px; }
+
+  /* MODAL */
+  .modal-overlay { display:none; position:fixed; inset:0; background:rgba(0,0,0,0.45); z-index:200; align-items:center; justify-content:center; padding:20px; }
+  .modal-overlay.open { display:flex; }
+  .modal { background:var(--white); border-radius:16px; width:100%; max-width:580px; max-height:90vh; overflow-y:auto; padding:28px; position:relative; }
+  .modal-title { font-family:'DM Sans',sans-serif; font-size:22px; font-weight:700; color:var(--dark); margin-bottom:4px; }
+  .modal-sub { font-size:12px; color:var(--light); margin-bottom:22px; }
+  .modal-close { position:absolute; top:18px; right:18px; background:none; border:none; font-size:20px; cursor:pointer; color:var(--light); line-height:1; }
+  .modal-close:hover { color:var(--dark); }
+
+  .upload-area { border:2px dashed var(--border); border-radius:10px; padding:22px; text-align:center; cursor:pointer; transition:all 0.2s; margin-bottom:18px; }
+  .upload-area:hover { border-color:var(--blue-mid); background:var(--blue-pale); }
+  .upload-icon { font-size:28px; margin-bottom:8px; }
+  .upload-area p { font-size:13px; color:var(--mid); font-weight:500; }
+  .upload-area span { font-size:11px; color:var(--light); }
+
+  .form-section { margin-bottom:18px; }
+  .form-section-title { font-size:11px; font-weight:600; letter-spacing:0.08em; text-transform:uppercase; color:var(--blue); margin-bottom:10px; padding-bottom:6px; border-bottom:1px solid var(--blue-pale); }
+  .form-row { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+  .form-group { display:flex; flex-direction:column; gap:4px; margin-bottom:12px; }
+  .form-label { font-size:11px; font-weight:600; letter-spacing:0.06em; text-transform:uppercase; color:var(--light); }
+  .form-input, .form-select { padding:9px 12px; border:1px solid var(--border); border-radius:8px; font-family:'Plus Jakarta Sans',sans-serif; font-size:13px; color:var(--dark); background:#F0F2F8; outline:none; transition:border 0.2s; width:100%; }
+  .form-input:focus, .form-select:focus { border-color:var(--blue-mid); background:var(--white); }
+  .modal-actions { display:flex; gap:10px; justify-content:flex-end; padding-top:8px; border-top:1px solid var(--border); margin-top:8px; }
+
+  /* MOBILE */
+  .mobile-toggle { display:none; position:fixed; top:14px; left:14px; z-index:200; background:var(--white); border:1px solid var(--border); border-radius:8px; padding:8px 12px; cursor:pointer; font-size:18px; }
+  .overlay { display:none; position:fixed; inset:0; background:rgba(0,0,0,0.3); z-index:99; }
+  .overlay.show { display:block; }
+
+  @media(max-width:960px) {
+    .sidebar { transform:translateX(-100%); }
+    .sidebar.open { transform:translateX(0); box-shadow:4px 0 20px rgba(0,0,0,0.1); }
+    .main { margin-left:0; }
+    .mobile-toggle { display:flex; }
+    .topbar { padding:14px 14px 14px 52px; }
+    .content { padding:16px 14px; }
+    .stats-row { grid-template-columns:1fr 1fr; }
+    .doc-grid { grid-template-columns:1fr 1fr; }
+    .table-head, .table-row { grid-template-columns:2fr 1fr 1fr 0.7fr; }
+    .col-hide { display:none; }
+    .form-row { grid-template-columns:1fr; }
+  }
+  @media(max-width:480px) {
+    .doc-grid { grid-template-columns:1fr; }
+    .stats-row { grid-template-columns:1fr 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<button class="mobile-toggle" onclick="toggleSidebar()">☰</button>
+<div class="overlay" id="overlay" onclick="toggleSidebar()"></div>
+
+<!-- SIDEBAR -->
+<aside class="sidebar" id="sidebar">
+  <div class="logo-area">
+    <div class="logo-circle">
+      <svg width="22" height="22" viewBox="0 0 34 34" fill="none">
+        <path d="M26 17C26 11.48 21.52 7 16 7C10.48 7 6 11.48 6 17C6 22.52 10.48 27 16 27C18.8 27 21.3 25.9 23.2 24.1Z" fill="#C9A84C"/>
+        <circle cx="25" cy="10" r="2.2" fill="#C9A84C" opacity="0.6"/>
+      </svg>
+    </div>
+    <div class="logo-text">
+      <span class="brand">Excelentetapa Hub</span>
+      <span class="name">Recursos Humanos</span>
+    </div>
+  </div>
+
+  <nav class="nav">
+    <button class="back-btn" onclick="window.open('excelentetapa_hub_v3.html','_blank')">← Hub principal</button>
+
+    <span class="nav-label">Funcionários</span>
+    <button class="nav-item active" onclick="showSection('dashboard', this)">📊 Dashboard</button>
+    <button class="nav-item" onclick="showSection('funcionarios', this)">👥 Lista de Funcionários</button>
+    <button class="nav-item" onclick="showSection('novo', this)">➕ Novo Funcionário</button>
+
+    <span class="nav-label">Documentos</span>
+    <button class="nav-item" onclick="showSection('contratos', this)">📝 Contratos</button>
+    <button class="nav-item" onclick="showSection('outros-docs', this)">📋 RGPD & Declarações</button>
+    <button class="nav-item" onclick="showSection('cartas', this)">✉️ Cartas & Cessação</button>
+
+    <span class="nav-label">Planeamento</span>
+    <button class="nav-item" onclick="showSection('escalas', this)">📅 Escalas de Serviço</button>
+    <button class="nav-item" onclick="showSection('ferias', this)">🏖️ Mapa de Férias <span class="badge-count">2</span></button>
+  </nav>
+
+  <div class="sidebar-footer">
+    <div class="company-badge">
+      <span>Empresa ativa</span>
+      <strong>Excelentetapa LDA · Casa dos Sonhos</strong>
+    </div>
+  </div>
+</aside>
+
+<!-- MAIN -->
+<main class="main">
+  <div class="topbar">
+    <div class="topbar-left">
+      <div>
+        <div class="page-title" id="page-title">Dashboard RH</div>
+        <div class="page-sub" id="page-sub">Visão geral dos Recursos Humanos</div>
+      </div>
+    </div>
+    <div class="topbar-actions">
+      <button class="btn btn-outline" onclick="showSection('contratos')">📝 Gerar documento</button>
+      <button class="btn btn-blue" onclick="showSection('novo')">+ Novo funcionário</button>
+    </div>
+  </div>
+
+  <div class="content">
+
+    <!-- DASHBOARD -->
+    <div id="section-dashboard" class="section active">
+      <div class="stats-row">
+        <div class="stat-card" onclick="showSection('funcionarios')">
+          <div class="stat-icon">👥</div>
+          <div class="stat-label">Total de funcionários</div>
+          <div class="stat-value">14</div>
+          <div class="stat-sub">Casa dos Sonhos</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon">📄</div>
+          <div class="stat-label">Contratos a termo</div>
+          <div class="stat-value">8</div>
+          <div class="stat-sub">Com data de fim</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon">⚠️</div>
+          <div class="stat-label">A terminar em breve</div>
+          <div class="stat-value" style="color:var(--orange)">2</div>
+          <div class="stat-sub">Próximos 30 dias</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon">✅</div>
+          <div class="stat-label">Efetivos</div>
+          <div class="stat-value">6</div>
+          <div class="stat-sub">Sem termo</div>
+        </div>
+      </div>
+
+      <div class="alerts-bar">
+        <div class="alert-chip danger">⚠️ 2 contratos a terminar em Maio</div>
+        <div class="alert-chip warning">📅 Escala de Maio por publicar</div>
+        <div class="alert-chip info">🏖️ 2 pedidos de férias pendentes</div>
+      </div>
+
+      <!-- Acesso rápido -->
+      <div class="section-heading">⚡ Acesso rápido</div>
+      <div class="doc-grid" style="margin-bottom:0">
+        <div class="doc-card" onclick="showSection('novo')">
+          <div class="doc-card-header">
+            <div class="doc-card-icon" style="background:var(--blue-pale)">➕</div>
+            <div class="doc-card-title">Novo Funcionário</div>
+          </div>
+          <div class="doc-card-desc">Regista um novo funcionário e gera todos os documentos automaticamente.</div>
+        </div>
+        <div class="doc-card" onclick="showSection('contratos')">
+          <div class="doc-card-header">
+            <div class="doc-card-icon" style="background:var(--gold-pale)">📝</div>
+            <div class="doc-card-title">Gerar Contrato</div>
+          </div>
+          <div class="doc-card-desc">Escolhe a categoria e gera o contrato preenchido automaticamente.</div>
+        </div>
+        <div class="doc-card" onclick="showSection('escalas')">
+          <div class="doc-card-header">
+            <div class="doc-card-icon" style="background:var(--green-pale)">📅</div>
+            <div class="doc-card-title">Escalas de Serviço</div>
+          </div>
+          <div class="doc-card-desc">Consulta e edita as escalas das duas residências.</div>
+        </div>
+        <div class="doc-card" onclick="showSection('outros-docs')">
+          <div class="doc-card-header">
+            <div class="doc-card-icon" style="background:var(--green-pale)">🔒</div>
+            <div class="doc-card-title">RGPD & Declarações</div>
+          </div>
+          <div class="doc-card-desc">Documentos de proteção de dados e declarações à entidade patronal.</div>
+        </div>
+        <div class="doc-card" onclick="showSection('cartas')">
+          <div class="doc-card-header">
+            <div class="doc-card-icon" style="background:var(--red-pale)">✉️</div>
+            <div class="doc-card-title">Cartas & Cessação</div>
+          </div>
+          <div class="doc-card-desc">Cartas de caducidade, denúncia, suspensão e abandono.</div>
+        </div>
+        <div class="doc-card" onclick="showSection('ferias')">
+          <div class="doc-card-header">
+            <div class="doc-card-icon" style="background:var(--purple-pale)">🏖️</div>
+            <div class="doc-card-title">Mapa de Férias</div>
+          </div>
+          <div class="doc-card-desc">Plano anual de férias 2026 — Casa dos Sonhos e Solar Villa Arruda.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- LISTA FUNCIONÁRIOS -->
+    <div id="section-funcionarios" class="section">
+      <div class="search-bar">
+        <input class="search-input" type="text" placeholder="🔍  Pesquisar por nome..." oninput="filterTable(this.value)"/>
+        <select class="filter-sel" onchange="filterCat(this.value)">
+          <option value="">Todas as categorias</option>
+          <option>Ajudante de Acção Directa</option>
+          <option>Ajudante de Cozinha</option>
+          <option>Cozinheira</option>
+          <option>Enfermagem</option>
+          <option>Auxiliar de Enfermagem</option>
+          <option>Fisioterapeuta</option>
+          <option>Animadora</option>
+          <option>Assistente Social</option>
+          <option>Directora Técnica</option>
+        </select>
+        <select class="filter-sel" onchange="filterEstado(this.value)">
+          <option value="">Todos os estados</option>
+          <option>Efetivo</option>
+          <option>A termo</option>
+          <option>A terminar</option>
+        </select>
+      </div>
+
+      <div class="table-wrap">
+        <div class="table-head">
+          <div>Funcionário</div>
+          <div class="col-hide">Categoria</div>
+          <div>Admissão</div>
+          <div class="col-hide">Fim contrato</div>
+          <div>Estado</div>
+          <div>Ações</div>
+        </div>
+        <div id="table-body">
+          <div class="table-row" data-cat="Ajudante de Acção Directa" data-estado="A termo">
+            <div class="func-name"><div class="func-avatar" style="background:#6B9FD4">R</div><div><div class="func-name-text">Rosa Domingos Panzo</div><div class="func-cat-text">Ajudante de Acção Directa</div></div></div>
+            <div class="cell col-hide">Ajudante de Acção Directa</div>
+            <div class="cell">27/04/2026</div>
+            <div class="cell col-hide">27/10/2026</div>
+            <div><span class="badge termo">A termo</span></div>
+            <div class="action-btns"><button class="icon-btn" title="Documentos" onclick="showSection('contratos')">📄</button><button class="icon-btn" title="Editar">✏️</button></div>
+          </div>
+          <div class="table-row" data-cat="Cozinheira" data-estado="Efetivo">
+            <div class="func-name"><div class="func-avatar" style="background:#7DC4A0">M</div><div><div class="func-name-text">Maria João Silva</div><div class="func-cat-text">Cozinheira</div></div></div>
+            <div class="cell col-hide">Cozinheira</div>
+            <div class="cell">15/03/2024</div>
+            <div class="cell col-hide">—</div>
+            <div><span class="badge ativo">Efetiva</span></div>
+            <div class="action-btns"><button class="icon-btn" title="Documentos">📄</button><button class="icon-btn" title="Editar">✏️</button></div>
+          </div>
+          <div class="table-row" data-cat="Enfermagem" data-estado="A terminar">
+            <div class="func-name"><div class="func-avatar" style="background:#E8A0A0">A</div><div><div class="func-name-text">Ana Ferreira Santos</div><div class="func-cat-text">Enfermagem</div></div></div>
+            <div class="cell col-hide">Enfermagem</div>
+            <div class="cell">01/01/2026</div>
+            <div class="cell col-hide">31/05/2026</div>
+            <div><span class="badge alerta">⚠ A terminar</span></div>
+            <div class="action-btns"><button class="icon-btn" title="Documentos">📄</button><button class="icon-btn" title="Editar">✏️</button></div>
+          </div>
+          <div class="table-row" data-cat="Fisioterapeuta" data-estado="Efetivo">
+            <div class="func-name"><div class="func-avatar" style="background:#9B8EC9">P</div><div><div class="func-name-text">Paula Mendes Ramos</div><div class="func-cat-text">Fisioterapeuta</div></div></div>
+            <div class="cell col-hide">Fisioterapeuta</div>
+            <div class="cell">05/09/2023</div>
+            <div class="cell col-hide">—</div>
+            <div><span class="badge ativo">Efetiva</span></div>
+            <div class="action-btns"><button class="icon-btn" title="Documentos">📄</button><button class="icon-btn" title="Editar">✏️</button></div>
+          </div>
+          <div class="table-row" data-cat="Ajudante de Cozinha" data-estado="A termo">
+            <div class="func-name"><div class="func-avatar" style="background:#C9A84C">F</div><div><div class="func-name-text">Filomena Costa</div><div class="func-cat-text">Ajudante de Cozinha</div></div></div>
+            <div class="cell col-hide">Ajudante de Cozinha</div>
+            <div class="cell">10/06/2025</div>
+            <div class="cell col-hide">10/12/2026</div>
+            <div><span class="badge termo">A termo</span></div>
+            <div class="action-btns"><button class="icon-btn" title="Documentos">📄</button><button class="icon-btn" title="Editar">✏️</button></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- NOVO FUNCIONÁRIO -->
+    <div id="section-novo" class="section">
+      <div style="max-width:640px;">
+        <div class="upload-area" onclick="document.getElementById('file-upload').click()">
+          <div class="upload-icon">📎</div>
+          <p>Clica para carregar os documentos do funcionário</p>
+          <span>Passaporte · Título de Residência · CV · IBAN · Outros</span>
+          <input type="file" id="file-upload" multiple style="display:none" onchange="filesSelected(this)"/>
+        </div>
+        <div id="files-list" style="display:none;margin-bottom:18px;background:var(--white);border:1px solid var(--border);border-radius:10px;padding:14px;">
+          <div style="font-size:11px;font-weight:600;letter-spacing:0.07em;text-transform:uppercase;color:var(--light);margin-bottom:8px;">Ficheiros carregados</div>
+          <div id="files-names"></div>
+        </div>
+
+        <div class="form-section">
+          <div class="form-section-title">Dados pessoais</div>
+          <div class="form-row">
+            <div class="form-group"><label class="form-label">Nome completo</label><input class="form-input" type="text" placeholder="Nome completo"/></div>
+            <div class="form-group"><label class="form-label">Data de nascimento</label><input class="form-input" type="date"/></div>
+          </div>
+          <div class="form-row">
+            <div class="form-group"><label class="form-label">Nacionalidade</label><input class="form-input" type="text" placeholder="Ex: Portuguesa"/></div>
+            <div class="form-group"><label class="form-label">Sexo</label><select class="form-select"><option>Feminino</option><option>Masculino</option></select></div>
+          </div>
+          <div class="form-group"><label class="form-label">Morada completa</label><input class="form-input" type="text" placeholder="Rua, nº, andar, código postal, localidade"/></div>
+          <div class="form-row">
+            <div class="form-group"><label class="form-label">Telemóvel</label><input class="form-input" type="tel" placeholder="9XX XXX XXX"/></div>
+            <div class="form-group"><label class="form-label">Email</label><input class="form-input" type="email" placeholder="email@exemplo.com"/></div>
+          </div>
+        </div>
+
+        <div class="form-section">
+          <div class="form-section-title">Identificação & documentos</div>
+          <div class="form-row">
+            <div class="form-group"><label class="form-label">NIF</label><input class="form-input" type="text" placeholder="000000000"/></div>
+            <div class="form-group"><label class="form-label">Nº Segurança Social</label><input class="form-input" type="text" placeholder="00000000000"/></div>
+          </div>
+          <div class="form-row">
+            <div class="form-group"><label class="form-label">Tipo de documento ID</label><select class="form-select"><option>Passaporte</option><option>Cartão de Cidadão</option><option>Título de Residência</option></select></div>
+            <div class="form-group"><label class="form-label">Nº documento</label><input class="form-input" type="text" placeholder="Nº do documento"/></div>
+          </div>
+          <div class="form-row">
+            <div class="form-group"><label class="form-label">Validade</label><input class="form-input" type="date"/></div>
+            <div class="form-group"><label class="form-label">IBAN</label><input class="form-input" type="text" placeholder="PT50 XXXX XXXX XXXX"/></div>
+          </div>
+        </div>
+
+        <div class="form-section">
+          <div class="form-section-title">Dados contratuais</div>
+          <div class="form-row">
+            <div class="form-group"><label class="form-label">Categoria profissional</label>
+              <select class="form-select">
+                <option value="">Seleciona...</option>
+                <option>Ajudante de Acção Directa</option>
+                <option>Ajudante de Cozinha</option>
+                <option>Cozinheira</option>
+                <option>Enfermagem</option>
+                <option>Auxiliar de Enfermagem</option>
+                <option>Fisioterapeuta</option>
+                <option>Animadora Sociocultural</option>
+                <option>Assistente Social</option>
+                <option>Directora Técnica</option>
+                <option>Encarregada de Serviços Gerais</option>
+              </select>
+            </div>
+            <div class="form-group"><label class="form-label">Tipo de contrato</label><select class="form-select"><option>A termo certo</option><option>Sem termo (efetivo)</option></select></div>
+          </div>
+          <div class="form-row">
+            <div class="form-group"><label class="form-label">Data de admissão</label><input class="form-input" type="date"/></div>
+            <div class="form-group"><label class="form-label">Data de fim (se a termo)</label><input class="form-input" type="date"/></div>
+          </div>
+          <div class="form-row">
+            <div class="form-group"><label class="form-label">Salário base (€)</label><input class="form-input" type="number" placeholder="0.00"/></div>
+            <div class="form-group"><label class="form-label">Nº horas semanais</label><input class="form-input" type="number" placeholder="40"/></div>
+          </div>
+          <div class="form-row">
+            <div class="form-group"><label class="form-label">Tipo de horário</label><select class="form-select"><option>Turnos</option><option>Normal fixo</option><option>Normal flexível</option><option>Isenção de horário</option></select></div>
+            <div class="form-group"><label class="form-label">Tipo de pagamento</label><select class="form-select"><option>Transferência bancária</option><option>Cheque</option><option>Dinheiro</option></select></div>
+          </div>
+        </div>
+
+        <div style="display:flex;gap:10px;justify-content:flex-end;">
+          <button class="btn btn-outline" onclick="showSection('dashboard')">Cancelar</button>
+          <button class="btn btn-green" onclick="gerarDocs()">✨ Gerar todos os documentos</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- CONTRATOS -->
+    <div id="section-contratos" class="section">
+      <div class="section-heading">📝 Contratos por categoria profissional</div>
+      <div class="doc-grid">
+        <div class="doc-card" onclick="window.location.href='https://raw.githubusercontent.com/ExcelentetapaLDA/excelentetapa-templates/main/Contrato_Ajudante_Accao_Directa_TEMPLATE.docx'">
+          <div class="doc-card-header"><div class="doc-card-icon" style="background:#EEF4FF">📝</div><div class="doc-card-title">Ajudante de Acção Directa</div></div>
+          <div class="doc-card-desc">Contrato a termo certo para Ajudante de Acção Directa de 3ª.</div>
+          <span class="doc-tag" style="background:var(--blue-pale);color:var(--blue)">Contrato</span>
+        </div>
+        <div class="doc-card" onclick="window.location.href='https://raw.githubusercontent.com/ExcelentetapaLDA/excelentetapa-templates/main/Contrato_Ajudante_Cozinha_TEMPLATE.docx'">
+          <div class="doc-card-header"><div class="doc-card-icon" style="background:#EEF4FF">📝</div><div class="doc-card-title">Ajudante de Cozinha</div></div>
+          <div class="doc-card-desc">Contrato a termo certo para Ajudante de Cozinha.</div>
+          <span class="doc-tag" style="background:var(--blue-pale);color:var(--blue)">Contrato</span>
+        </div>
+        <div class="doc-card" onclick="window.location.href='https://raw.githubusercontent.com/ExcelentetapaLDA/excelentetapa-templates/main/Contrato_Cozinheira_TEMPLATE.docx'">
+          <div class="doc-card-header"><div class="doc-card-icon" style="background:#EEF4FF">📝</div><div class="doc-card-title">Cozinheira</div></div>
+          <div class="doc-card-desc">Contrato para Cozinheira.</div>
+          <span class="doc-tag" style="background:var(--blue-pale);color:var(--blue)">Contrato</span>
+        </div>
+        <div class="doc-card" onclick="window.location.href='https://raw.githubusercontent.com/ExcelentetapaLDA/excelentetapa-templates/main/Contrato_Enfermagem_TEMPLATE.docx'">
+          <div class="doc-card-header"><div class="doc-card-icon" style="background:#EEF4FF">📝</div><div class="doc-card-title">Enfermagem</div></div>
+          <div class="doc-card-desc">Contrato para Enfermeiro/a.</div>
+          <span class="doc-tag" style="background:var(--blue-pale);color:var(--blue)">Contrato</span>
+        </div>
+        <div class="doc-card" onclick="window.location.href='https://raw.githubusercontent.com/ExcelentetapaLDA/excelentetapa-templates/main/Contrato_Auxiliar_Enfermagem_TEMPLATE.docx'">
+          <div class="doc-card-header"><div class="doc-card-icon" style="background:#EEF4FF">📝</div><div class="doc-card-title">Auxiliar de Enfermagem</div></div>
+          <div class="doc-card-desc">Contrato para Auxiliar de Enfermagem.</div>
+          <span class="doc-tag" style="background:var(--blue-pale);color:var(--blue)">Contrato</span>
+        </div>
+        <div class="doc-card" onclick="window.location.href='https://raw.githubusercontent.com/ExcelentetapaLDA/excelentetapa-templates/main/Contrato_Fisioterapeuta_TEMPLATE.docx'">
+          <div class="doc-card-header"><div class="doc-card-icon" style="background:#EEF4FF">📝</div><div class="doc-card-title">Fisioterapeuta</div></div>
+          <div class="doc-card-desc">Contrato para Fisioterapeuta.</div>
+          <span class="doc-tag" style="background:var(--blue-pale);color:var(--blue)">Contrato</span>
+        </div>
+        <div class="doc-card" onclick="window.location.href='https://raw.githubusercontent.com/ExcelentetapaLDA/excelentetapa-templates/main/Contrato_Animadora_TEMPLATE.docx'">
+          <div class="doc-card-header"><div class="doc-card-icon" style="background:#EEF4FF">📝</div><div class="doc-card-title">Animadora Sociocultural</div></div>
+          <div class="doc-card-desc">Contrato para Animadora Sociocultural.</div>
+          <span class="doc-tag" style="background:var(--blue-pale);color:var(--blue)">Contrato</span>
+        </div>
+        <div class="doc-card" onclick="window.location.href='https://raw.githubusercontent.com/ExcelentetapaLDA/excelentetapa-templates/main/Contrato_Assistente_Social_TEMPLATE.docx'">
+          <div class="doc-card-header"><div class="doc-card-icon" style="background:#EEF4FF">📝</div><div class="doc-card-title">Assistente Social</div></div>
+          <div class="doc-card-desc">Contrato para Assistente Social.</div>
+          <span class="doc-tag" style="background:var(--blue-pale);color:var(--blue)">Contrato</span>
+        </div>
+        <div class="doc-card" onclick="window.location.href='https://raw.githubusercontent.com/ExcelentetapaLDA/excelentetapa-templates/main/Contrato_Directora_Tecnica_Termo_TEMPLATE.docx'">
+          <div class="doc-card-header"><div class="doc-card-icon" style="background:#EEF4FF">📝</div><div class="doc-card-title">Directora Técnica — A Termo</div></div>
+          <div class="doc-card-desc">Contrato a termo certo para Directora Técnica.</div>
+          <span class="doc-tag" style="background:var(--blue-pale);color:var(--blue)">Contrato</span>
+        </div>
+        <div class="doc-card" onclick="window.location.href='https://raw.githubusercontent.com/ExcelentetapaLDA/excelentetapa-templates/main/Contrato_Directora_Tecnica_Efectiva_TEMPLATE.docx'">
+          <div class="doc-card-header"><div class="doc-card-icon" style="background:#EEF4FF">📝</div><div class="doc-card-title">Directora Técnica — Efectiva</div></div>
+          <div class="doc-card-desc">Contrato sem termo (efectivo) para Directora Técnica.</div>
+          <span class="doc-tag" style="background:var(--blue-pale);color:var(--blue)">Contrato</span>
+        </div>
+      </div>
+
+      <div class="section-heading">📎 Aditamentos</div>
+      <div class="doc-grid" style="margin-bottom:0">
+        <div class="doc-card" onclick="window.location.href='https://raw.githubusercontent.com/ExcelentetapaLDA/excelentetapa-templates/main/Aditamento_Sigilo_TEMPLATE.docx'">
+          <div class="doc-card-header"><div class="doc-card-icon" style="background:var(--orange-pale)">📎</div><div class="doc-card-title">Aditamento — Sigilo</div></div>
+          <div class="doc-card-desc">Aditamento ao contrato com cláusula de sigilo profissional.</div>
+          <span class="doc-tag" style="background:var(--orange-pale);color:var(--orange)">Aditamento</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- RGPD & DECLARAÇÕES -->
+    <div id="section-outros-docs" class="section">
+      <div class="section-heading">🔒 Proteção de Dados</div>
+      <div class="doc-grid" style="margin-bottom:28px;">
+        <div class="doc-card" onclick="window.location.href='https://raw.githubusercontent.com/ExcelentetapaLDA/excelentetapa-templates/main/RGPD_Tratamento_Dados_TEMPLATE.docx'">
+          <div class="doc-card-header"><div class="doc-card-icon" style="background:var(--green-pale)">🔒</div><div class="doc-card-title">Tratamento de Dados (RGPD)</div></div>
+          <div class="doc-card-desc">Consentimento de tratamento de dados pessoais do funcionário.</div>
+          <span class="doc-tag" style="background:var(--green-pale);color:var(--green)">RGPD</span>
+        </div>
+      </div>
+
+      <div class="section-heading">📋 Declarações</div>
+      <div class="doc-grid" style="margin-bottom:0">
+        <div class="doc-card" onclick="window.location.href='https://raw.githubusercontent.com/ExcelentetapaLDA/excelentetapa-templates/main/Declaracao_Funcionaria_TEMPLATE.docx'">
+          <div class="doc-card-header"><div class="doc-card-icon" style="background:var(--green-pale)">📋</div><div class="doc-card-title">Declaração à Entidade Patronal</div></div>
+          <div class="doc-card-desc">Declaração de vínculo laboral para fins externos (banco, finanças, etc.).</div>
+          <span class="doc-tag" style="background:var(--green-pale);color:var(--green)">Declaração</span>
+        </div>
+        <div class="doc-card" onclick="window.location.href='https://raw.githubusercontent.com/ExcelentetapaLDA/excelentetapa-templates/main/Ficha_Identificacao_TEMPLATE.pdf'">
+          <div class="doc-card-header"><div class="doc-card-icon" style="background:var(--green-pale)">🗂️</div><div class="doc-card-title">Ficha de Identificação</div></div>
+          <div class="doc-card-desc">Ficha de identificação do funcionário para o sistema de RH.</div>
+          <span class="doc-tag" style="background:var(--green-pale);color:var(--green)">Ficha</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- CARTAS -->
+    <div id="section-cartas" class="section">
+      <div class="section-heading">✉️ Cartas de Cessação & Suspensão</div>
+      <div class="doc-grid" style="margin-bottom:0">
+        <div class="doc-card" onclick="window.location.href='https://raw.githubusercontent.com/ExcelentetapaLDA/excelentetapa-templates/main/Carta_Caducidade_TEMPLATE.docx'">
+          <div class="doc-card-header"><div class="doc-card-icon" style="background:var(--red-pale)">📮</div><div class="doc-card-title">Carta de Caducidade</div></div>
+          <div class="doc-card-desc">Comunicação de caducidade do contrato entregue em mão.</div>
+          <span class="doc-tag" style="background:var(--red-pale);color:var(--red)">Cessação</span>
+        </div>
+        <div class="doc-card" onclick="window.location.href='https://raw.githubusercontent.com/ExcelentetapaLDA/excelentetapa-templates/main/Carta_Denuncia_Periodo_Experimental_TEMPLATE.docx'">
+          <div class="doc-card-header"><div class="doc-card-icon" style="background:var(--red-pale)">📮</div><div class="doc-card-title">Denúncia — Período Experimental</div></div>
+          <div class="doc-card-desc">Carta de denúncia do contrato durante o período experimental.</div>
+          <span class="doc-tag" style="background:var(--red-pale);color:var(--red)">Cessação</span>
+        </div>
+        <div class="doc-card" onclick="window.location.href='https://raw.githubusercontent.com/ExcelentetapaLDA/excelentetapa-templates/main/Carta_Suspensao_Preventiva_TEMPLATE.docx'">
+          <div class="doc-card-header"><div class="doc-card-icon" style="background:var(--orange-pale)">⚠️</div><div class="doc-card-title">Suspensão Preventiva</div></div>
+          <div class="doc-card-desc">Carta de suspensão preventiva do trabalhador.</div>
+          <span class="doc-tag" style="background:var(--orange-pale);color:var(--orange)">Suspensão</span>
+        </div>
+        <div class="doc-card" onclick="window.location.href='https://raw.githubusercontent.com/ExcelentetapaLDA/excelentetapa-templates/main/Carta_Abandono_TEMPLATE.docx'">
+          <div class="doc-card-header"><div class="doc-card-icon" style="background:var(--red-pale)">🚪</div><div class="doc-card-title">Abandono de Trabalho</div></div>
+          <div class="doc-card-desc">Carta de comunicação de abandono de trabalho.</div>
+          <span class="doc-tag" style="background:var(--red-pale);color:var(--red)">Cessação</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ESCALAS -->
+    <div id="section-escalas" class="section">
+      <div class="coming-soon">
+        <div class="cs-icon">📅</div>
+        <h3>Escalas de Serviço</h3>
+        <p>As escalas estão atualmente no Google Sheets.<br>Assim que partilhares o link, integro aqui diretamente.</p>
+        <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap;">
+          <button class="btn btn-green" onclick="alert('Cola aqui o link do Google Sheets das escalas')">Ligar Google Sheets</button>
+          <button class="btn btn-outline">Abrir no Google Sheets ↗</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- FÉRIAS -->
+    <div id="section-ferias" class="section">
+      <div class="coming-soon">
+        <div class="cs-icon">🏖️</div>
+        <h3>Mapa de Férias 2026</h3>
+        <p>O mapa de férias está no Google Sheets.<br>Assim que partilhares o link, integro aqui com vista de calendário.</p>
+        <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap;">
+          <button class="btn btn-blue" onclick="alert('Cola aqui o link do Google Sheets das férias')">Ligar Google Sheets</button>
+          <button class="btn btn-outline">Abrir no Google Sheets ↗</button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</main>
+
+<script>
+const sections = {
+  dashboard: { title:'Dashboard RH', sub:'Visão geral dos Recursos Humanos' },
+  funcionarios: { title:'Lista de Funcionários', sub:'Todos os funcionários ativos' },
+  novo: { title:'Novo Funcionário', sub:'Registo e geração automática de documentos' },
+  contratos: { title:'Contratos', sub:'Todos os modelos por categoria profissional' },
+  'outros-docs': { title:'RGPD & Declarações', sub:'Proteção de dados e declarações' },
+  cartas: { title:'Cartas & Cessação', sub:'Documentos de cessação e suspensão' },
+  escalas: { title:'Escalas de Serviço', sub:'Casa dos Sonhos e Solar Villa Arruda' },
+  ferias: { title:'Mapa de Férias', sub:'Plano anual de férias 2026' },
+};
+
+function showSection(id, navEl) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.getElementById('section-' + id).classList.add('active');
+  document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
+  if (navEl) navEl.classList.add('active');
+  const info = sections[id] || {};
+  document.getElementById('page-title').textContent = info.title || id;
+  document.getElementById('page-sub').textContent = info.sub || '';
+  if (window.innerWidth < 960) toggleSidebar();
+}
+
+function gerarDoc(tipo) {
+  alert(`📄 Gerar: ${tipo}\n\nEm produção, seleciona o funcionário e o documento é gerado com os dados preenchidos automaticamente.`);
+}
+
+function gerarDocs() {
+  alert('✨ Em produção, todos os documentos serão gerados automaticamente:\n• Ficha de identificação\n• Contrato da categoria selecionada\n• Documento RGPD\n\nProntos para assinar e arquivar!');
+  showSection('dashboard');
+}
+
+function filesSelected(input) {
+  const list = document.getElementById('files-list');
+  const names = document.getElementById('files-names');
+  if (input.files.length > 0) {
+    list.style.display = 'block';
+    names.innerHTML = Array.from(input.files).map(f =>
+      `<div style="padding:5px 0;border-bottom:1px solid var(--border);font-size:13px;display:flex;align-items:center;gap:8px;">📎 ${f.name}</div>`
+    ).join('');
+  }
+}
+
+function filterTable(val) {
+  document.querySelectorAll('.table-row').forEach(row => {
+    const name = row.querySelector('.func-name-text')?.textContent.toLowerCase() || '';
+    row.style.display = name.includes(val.toLowerCase()) ? '' : 'none';
+  });
+}
+
+function filterCat(val) {
+  document.querySelectorAll('.table-row').forEach(row => {
+    const cat = row.dataset.cat || '';
+    row.style.display = (!val || cat === val) ? '' : 'none';
+  });
+}
+
+function filterEstado(val) {
+  document.querySelectorAll('.table-row').forEach(row => {
+    const est = row.dataset.estado || '';
+    row.style.display = (!val || est === val) ? '' : 'none';
+  });
+}
+
+function toggleSidebar() {
+  document.getElementById('sidebar').classList.toggle('open');
+  document.getElementById('overlay').classList.toggle('show');
+}
+</script>
+</body>
+</html>
